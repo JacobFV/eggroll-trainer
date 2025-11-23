@@ -1,0 +1,68 @@
+[project]
+name = "eggroll-trainer"
+version = "0.1.0"
+description = "A library for Evolution Strategy trainers in PyTorch, including the EGGROLL algorithm"
+readme = "README.md"
+requires-python = ">=3.12"
+license = {text = "MIT"}
+authors = [
+    {name = "Jacob Valdez", email = "jacobfv123@gmail.com"}
+]
+maintainers = [
+    {name = "Jacob Valdez", email = "jacobfv123@gmail.com"}
+]
+keywords = [
+    "evolution-strategies",
+    "evolutionary-algorithms",
+    "pytorch",
+    "optimization",
+    "machine-learning",
+    "eggroll",
+    "gradient-free-optimization",
+    "black-box-optimization",
+    "neural-network-training",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Typing :: Typed",
+]
+dependencies = [
+    "torch>=2.0.0",
+    "torchvision>=0.15.0",
+    "numpy>=1.24.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "matplotlib>=3.7.0",
+]
+examples = [
+    "matplotlib>=3.7.0",
+]
+all = [
+    "matplotlib>=3.7.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["eggroll_trainer*"]
+
+[project.urls]
+Homepage = "https://jvboid.dev/projects/eggroll-trainer"
+Documentation = "https://jvboid.dev/projects/eggroll-trainer"
+Repository = "https://github.com/JacobFV/eggroll-trainer"
+Issues = "https://github.com/JacobFV/eggroll-trainer/issues"
