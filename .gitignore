@@ -8,6 +8,7 @@ build/
 develop-eggs/
 dist/
 downloads/
+*.egg-info/
 eggs/
 .eggs/
 lib/
@@ -84,3 +85,6 @@ uv.lock
 *.tmp
 *.bak
 *.swp
+
+# MkDocs
+site/
