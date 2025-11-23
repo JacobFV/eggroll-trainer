@@ -1,0 +1,64 @@
+name: Build Package
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'eggroll_trainer/**'
+      - 'pyproject.toml'
+      - 'setup.py'
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - 'eggroll_trainer/**'
+      - 'pyproject.toml'
+      - 'setup.py'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12"]
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v4
+      with:
+        version: "latest"
+    
+    - name: Install build dependencies
+      run: |
+        uv pip install build
+    
+    - name: Build package
+      run: |
+        python -m build
+    
+    - name: Check built files
+      run: |
+        echo "Built files:"
+        ls -lh dist/
+        echo ""
+        echo "Package info:"
+        python -m zipfile -l dist/*.whl 2>/dev/null | head -10 || echo "Not a wheel file"
+    
+    - name: Verify package can be installed
+      run: |
+        uv pip install dist/*.whl
+        uv run python -c "from eggroll_trainer import ESTrainer, SimpleESTrainer, EGGROLLTrainer; print('✓ Package installs and imports successfully')"
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: dist-packages
+        path: dist/*
+        retention-days: 7
+
