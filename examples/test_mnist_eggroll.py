@@ -5,29 +5,23 @@ For full comparison with SGD, see mnist_comparison.py
 """
 
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
+import sys
+import os
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
+
+# Add parent directory to path for imports when running as script
+_script_dir = os.path.dirname(os.path.abspath(__file__))
+_parent_dir = os.path.dirname(_script_dir)
+if _parent_dir not in sys.path:
+    sys.path.insert(0, _parent_dir)
+
+if _script_dir not in sys.path:
+    sys.path.insert(0, _script_dir)
+
 from eggroll_trainer import EGGROLLTrainer
-
-
-class SimpleMNISTNet(nn.Module):
-    """Simplified CNN for MNIST."""
-    
-    def __init__(self):
-        super().__init__()
-        self.conv1 = nn.Conv2d(1, 16, kernel_size=3, padding=1)
-        self.pool = nn.MaxPool2d(2, 2)
-        self.fc1 = nn.Linear(16 * 14 * 14, 64)
-        self.fc2 = nn.Linear(64, 10)
-    
-    def forward(self, x):
-        x = self.pool(F.relu(self.conv1(x)))
-        x = x.view(-1, 16 * 14 * 14)
-        x = F.relu(self.fc1(x))
-        x = self.fc2(x)
-        return x
+from models import SimpleMNISTNet
+from utils import create_accuracy_fitness_fn, evaluate_model
 
 
 def test_mnist_training():
@@ -64,26 +58,8 @@ def test_mnist_training():
     # Create model
     model = SimpleMNISTNet().to(device)
     
-    # Cache training data for fitness evaluation
-    cached_data = []
-    cached_targets = []
-    for batch_idx, (data, target) in enumerate(train_loader):
-        if batch_idx >= 10:  # Use 10 batches
-            break
-        cached_data.append(data.to(device))
-        cached_targets.append(target.to(device))
-    
-    def fitness_fn(model):
-        model.eval()
-        correct = 0
-        total = 0
-        with torch.no_grad():
-            for data, target in zip(cached_data, cached_targets):
-                output = model(data)
-                pred = output.argmax(dim=1)
-                correct += pred.eq(target).sum().item()
-                total += target.size(0)
-        return correct / total if total > 0 else 0.0
+    # Create fitness function using shared utility
+    fitness_fn = create_accuracy_fitness_fn(train_loader, device, batch_limit=10)
     
     # Evaluate initial model
     initial_fitness = fitness_fn(model)
@@ -123,21 +99,8 @@ def test_mnist_training():
     print(f"Best model fitness: {best_fitness:.4f}")
     print("✓ Best model retrieved successfully")
     
-    # Evaluate on test set
-    def evaluate_test(model):
-        model.eval()
-        correct = 0
-        total = 0
-        with torch.no_grad():
-            for data, target in test_loader:
-                data, target = data.to(device), target.to(device)
-                output = model(data)
-                pred = output.argmax(dim=1)
-                correct += pred.eq(target).sum().item()
-                total += target.size(0)
-        return 100.0 * correct / total
-    
-    test_acc = evaluate_test(best_model)
+    # Evaluate on test set using shared utility
+    test_acc = evaluate_model(best_model, test_loader, device)
     print(f"\nTest accuracy: {test_acc:.2f}%")
     print("✓ Model evaluation works")
     

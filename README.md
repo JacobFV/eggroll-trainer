@@ -121,10 +121,15 @@ Subclasses implement:
 ## Examples
 
 See the `examples/` directory:
-- `eggroll_example.py` - EGGROLL trainer demo
-- `simple_example.py` - Basic ES trainer demo
-- `test_comprehensive.py` - Test suite for base trainers
-- `test_eggroll.py` - Test suite for EGGROLL
+- `basic_example.py` ⭐ **START HERE** - Side-by-side comparison of SimpleESTrainer and EGGROLLTrainer
+- `mnist_comparison.py` - Full EGGROLL vs SGD comparison on MNIST with plots
+- `run_all_comparisons.py` - Multi-architecture comparison (CNN, Transformer, MLP)
+- `comparison_framework.py` - Reusable framework for comparing optimizers
+- `models.py` - Shared model architectures
+- `utils.py` - Shared utility functions
+- Test suites: `test_comprehensive.py`, `test_eggroll.py`, `test_mnist_eggroll.py`
+
+See `examples/README.md` for detailed documentation.
 
 ## Key Features
 

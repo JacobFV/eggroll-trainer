@@ -2,18 +2,20 @@
 
 import torch
 import torch.nn as nn
+import sys
+import os
+
+# Add parent directory to path for imports when running as script
+_script_dir = os.path.dirname(os.path.abspath(__file__))
+_parent_dir = os.path.dirname(_script_dir)
+if _parent_dir not in sys.path:
+    sys.path.insert(0, _parent_dir)
+
+if _script_dir not in sys.path:
+    sys.path.insert(0, _script_dir)
+
 from eggroll_trainer import EGGROLLTrainer
-
-
-class TinyModel(nn.Module):
-    """A tiny model for quick testing."""
-    
-    def __init__(self):
-        super().__init__()
-        self.fc = nn.Linear(5, 1)
-    
-    def forward(self, x):
-        return self.fc(x)
+from models import TinyModel
 
 
 def test_eggroll_basic():

@@ -70,39 +70,31 @@ class ComparisonFramework:
     
     def create_fitness_fn(self, batch_limit: int = 50) -> Callable:
         """Create fitness function for EGGROLL."""
-        cached_data = []
-        cached_targets = []
-        for batch_idx, (data, target) in enumerate(self.train_loader):
-            if batch_idx >= batch_limit:
-                break
-            cached_data.append(data.to(self.device))
-            cached_targets.append(target.to(self.device))
-        
-        def fitness_fn(model):
-            model.eval()
-            correct = 0
-            total = 0
-            with torch.no_grad():
-                for data, target in zip(cached_data, cached_targets):
-                    output = model(data)
-                    if isinstance(output, tuple):
-                        output = output[0]  # Handle models that return (logits, ...)
-                    pred = output.argmax(dim=1)
-                    correct += pred.eq(target).sum().item()
-                    total += target.size(0)
-            return correct / total if total > 0 else 0.0
-        
-        return fitness_fn
+        import sys
+        import os
+        _script_dir = os.path.dirname(os.path.abspath(__file__))
+        if _script_dir not in sys.path:
+            sys.path.insert(0, _script_dir)
+        from utils import create_accuracy_fitness_fn
+        return create_accuracy_fitness_fn(self.train_loader, self.device, batch_limit)
     
     def evaluate_model(self, model: nn.Module) -> Tuple[float, float]:
         """Evaluate model on train and test sets."""
-        def eval_on_loader(loader, max_batches=None):
+        import sys
+        import os
+        _script_dir = os.path.dirname(os.path.abspath(__file__))
+        if _script_dir not in sys.path:
+            sys.path.insert(0, _script_dir)
+        from utils import evaluate_model as eval_model
+        
+        # Evaluate on train subset
+        def eval_train():
             model.eval()
             correct = 0
             total = 0
             with torch.no_grad():
-                for batch_idx, (data, target) in enumerate(loader):
-                    if max_batches and batch_idx >= max_batches:
+                for batch_idx, (data, target) in enumerate(self.train_loader):
+                    if batch_idx >= 20:
                         break
                     data, target = data.to(self.device), target.to(self.device)
                     output = model(data)
@@ -113,8 +105,8 @@ class ComparisonFramework:
                     total += target.size(0)
             return 100.0 * correct / total if total > 0 else 0.0
         
-        train_acc = eval_on_loader(self.train_loader, max_batches=20)
-        test_acc = eval_on_loader(self.test_loader)
+        train_acc = eval_train()
+        test_acc = eval_model(model, self.test_loader, self.device)
         return train_acc, test_acc
     
     def train_sgd(
