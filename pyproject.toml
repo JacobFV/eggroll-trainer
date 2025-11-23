@@ -49,8 +49,16 @@ dev = [
 examples = [
     "matplotlib>=3.7.0",
 ]
+docs = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.0.0",
+    "mkdocstrings[python]>=0.23.0",
+]
 all = [
     "matplotlib>=3.7.0",
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.0.0",
+    "mkdocstrings[python]>=0.23.0",
 ]
 
 [build-system]
@@ -62,7 +70,7 @@ where = ["."]
 include = ["eggroll_trainer*"]
 
 [project.urls]
-Homepage = "https://jvboid.dev/projects/eggroll-trainer"
-Documentation = "https://jvboid.dev/projects/eggroll-trainer"
+Homepage = "https://jacobfv.github.io/eggroll-trainer/"
+Documentation = "https://jacobfv.github.io/eggroll-trainer/"
 Repository = "https://github.com/JacobFV/eggroll-trainer"
 Issues = "https://github.com/JacobFV/eggroll-trainer/issues"

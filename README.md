@@ -2,8 +2,13 @@
 
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Documentation](https://img.shields.io/badge/docs-latest-blue.svg)](https://jacobfv.github.io/eggroll-trainer/)
 
 A library for Evolution Strategy (ES) trainers in PyTorch, including the **EGGROLL** algorithm.
+
+## Documentation
+
+📚 **[Full Documentation](https://jacobfv.github.io/eggroll-trainer/)** - Complete guide with examples, API reference, and research.
 
 ## Installation
 
