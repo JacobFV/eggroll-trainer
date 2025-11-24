@@ -135,7 +135,21 @@ See the `examples/` directory:
 - `utils.py` - Shared utility functions
 - Test suites: `test_comprehensive.py`, `test_eggroll.py`, `test_mnist_eggroll.py`
 
-See `examples/README.md` for detailed documentation.
+### 3D Reinforcement Learning Examples
+
+Train agents in 3D MuJoCo environments:
+
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0;">
+  <img src="docs/assets/images/ant_walk.png" alt="Ant Locomotion" width="200" style="border-radius: 8px;">
+  <img src="docs/assets/images/halfcheetah_run.png" alt="HalfCheetah Running" width="200" style="border-radius: 8px;">
+  <img src="docs/assets/images/humanoid_stand.png" alt="Humanoid Walking" width="200" style="border-radius: 8px;">
+  <img src="docs/assets/images/hopper.png" alt="Hopper Locomotion" width="200" style="border-radius: 8px;">
+  <img src="docs/assets/images/walker2d.png" alt="Walker2d" width="200" style="border-radius: 8px;">
+  <img src="docs/assets/images/swimmer.png" alt="Swimmer" width="200" style="border-radius: 8px;">
+  <img src="docs/assets/images/reacher.png" alt="Reacher" width="200" style="border-radius: 8px;">
+</div>
+
+See `examples/README.md` and `examples/animals_3d/README.md` for detailed documentation.
 
 ## Key Features
 

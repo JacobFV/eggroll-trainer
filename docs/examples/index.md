@@ -8,6 +8,25 @@ Walkthroughs and tutorials for using Eggroll Trainer.
 - **[MNIST Classification](mnist-classification.md)** - Full EGGROLL vs SGD comparison
 - **[Custom Trainers](custom-trainers.md)** - Creating your own ES algorithm
 
+## 3D Reinforcement Learning
+
+Train agents in 3D MuJoCo environments:
+
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0;">
+  <img src="../assets/images/ant_walk.png" alt="Ant Locomotion" width="180" style="border-radius: 8px;">
+  <img src="../assets/images/halfcheetah_run.png" alt="HalfCheetah Running" width="180" style="border-radius: 8px;">
+  <img src="../assets/images/humanoid_stand.png" alt="Humanoid Walking" width="180" style="border-radius: 8px;">
+  <img src="../assets/images/hopper.png" alt="Hopper Locomotion" width="180" style="border-radius: 8px;">
+  <img src="../assets/images/walker2d.png" alt="Walker2d" width="180" style="border-radius: 8px;">
+  <img src="../assets/images/swimmer.png" alt="Swimmer" width="180" style="border-radius: 8px;">
+  <img src="../assets/images/reacher.png" alt="Reacher" width="180" style="border-radius: 8px;">
+</div>
+
+See `examples/animals_3d/` for 3D RL examples including:
+- Simple locomotion (Ant, HalfCheetah, Humanoid)
+- Multi-agent scenarios (flocking, predator-prey)
+- Advanced physics (underwater, aerial, cloth simulation)
+
 ## Running Examples
 
 All examples are in the `examples/` directory:

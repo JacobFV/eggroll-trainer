@@ -11,6 +11,17 @@ Evolution Strategies (ES) are a class of **black-box optimization algorithms** t
 - Evaluate multiple perturbed versions of a model (population)
 - Use fitness scores to guide parameter updates
 
+### Example: Training 3D Agents
+
+ES excels at training agents in complex 3D environments where gradients may be unavailable or unreliable:
+
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0;">
+  <img src="../assets/images/ant_walk.png" alt="Ant Locomotion" width="150" style="border-radius: 8px;">
+  <img src="../assets/images/halfcheetah_run.png" alt="HalfCheetah Running" width="150" style="border-radius: 8px;">
+  <img src="../assets/images/humanoid_stand.png" alt="Humanoid Walking" width="150" style="border-radius: 8px;">
+  <img src="../assets/images/hopper.png" alt="Hopper Locomotion" width="150" style="border-radius: 8px;">
+</div>
+
 ### How ES Works
 
 1. **Initialize** a model with parameters θ

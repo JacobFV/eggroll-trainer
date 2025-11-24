@@ -49,6 +49,16 @@ trainer.train(num_generations=100)
 best_model = trainer.get_best_model()
 ```
 
+## What You Can Build
+
+Eggroll Trainer works great for reinforcement learning in 3D environments:
+
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0;">
+  <img src="../assets/images/ant_walk.png" alt="Ant Locomotion" width="180" style="border-radius: 8px;">
+  <img src="../assets/images/halfcheetah_run.png" alt="HalfCheetah Running" width="180" style="border-radius: 8px;">
+  <img src="../assets/images/humanoid_stand.png" alt="Humanoid Walking" width="180" style="border-radius: 8px;">
+</div>
+
 ## Understanding the Code
 
 ### Model

@@ -94,6 +94,20 @@ uv add eggroll-trainer --extra examples
 
 For development/contributing, see [Contributing Guide](../CONTRIBUTING.md).
 
+## 3D Reinforcement Learning Examples
+
+Train agents in 3D MuJoCo environments using EGGROLL:
+
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0;">
+  <img src="assets/images/ant_walk.png" alt="Ant Locomotion" width="200" style="border-radius: 8px;">
+  <img src="assets/images/halfcheetah_run.png" alt="HalfCheetah Running" width="200" style="border-radius: 8px;">
+  <img src="assets/images/humanoid_stand.png" alt="Humanoid Walking" width="200" style="border-radius: 8px;">
+  <img src="assets/images/hopper.png" alt="Hopper Locomotion" width="200" style="border-radius: 8px;">
+  <img src="assets/images/walker2d.png" alt="Walker2d" width="200" style="border-radius: 8px;">
+  <img src="assets/images/swimmer.png" alt="Swimmer" width="200" style="border-radius: 8px;">
+  <img src="assets/images/reacher.png" alt="Reacher" width="200" style="border-radius: 8px;">
+</div>
+
 ## Documentation
 
 - **[Getting Started](getting-started/index.md)** - Installation and quick start guide
