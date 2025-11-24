@@ -36,7 +36,7 @@ jobs:
     
     - name: Install build dependencies
       run: |
-        uv pip install build
+        uv pip install --system build
     
     - name: Build package
       run: |
@@ -52,7 +52,7 @@ jobs:
     
     - name: Verify package can be installed
       run: |
-        uv pip install dist/*.whl
+        uv pip install --system dist/*.whl
         uv run python -c "from eggroll_trainer import ESTrainer, SimpleESTrainer, EGGROLLTrainer; print('✓ Package installs and imports successfully')"
     
     - name: Upload build artifacts
