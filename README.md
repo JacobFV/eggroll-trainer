@@ -1,6 +1,7 @@
 # Eggroll Trainer
 
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+[![PyPI](https://img.shields.io/pypi/v/eggroll-trainer.svg)](https://pypi.org/project/eggroll-trainer/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Documentation](https://img.shields.io/badge/docs-latest-blue.svg)](https://jacobfv.github.io/eggroll-trainer/)
 
