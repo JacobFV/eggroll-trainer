@@ -13,19 +13,19 @@ A library for Evolution Strategy (ES) trainers in PyTorch, including the **EGGRO
 ## Installation
 
 ```bash
-# Using uv (recommended)
-uv sync
-uv run python examples/eggroll_example.py
+# Using pip
+pip install eggroll-trainer
 
-# For examples that need matplotlib (like mnist_comparison.py):
-uv sync --extra dev
+# Or using uv
+uv add eggroll-trainer
 
-# Or using pip
-pip install -e .
-
-# With dev dependencies (for examples with plots):
-pip install -e ".[dev]"
+# For examples with plotting:
+pip install "eggroll-trainer[examples]"
+# or
+uv add eggroll-trainer --extra examples
 ```
+
+For development/contributing, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## What is EGGROLL?
 

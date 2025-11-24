@@ -83,21 +83,15 @@ trainer.train(num_generations=100)
     uv add eggroll-trainer
     ```
 
-=== "From Source"
-
-    ```bash
-    git clone https://github.com/JacobFV/eggroll-trainer.git
-    cd eggroll-trainer
-    uv sync
-    ```
-
 For examples with plotting:
 
 ```bash
 pip install "eggroll-trainer[examples]"
 # or
-uv sync --extra examples
+uv add eggroll-trainer --extra examples
 ```
+
+For development/contributing, see [Contributing Guide](../CONTRIBUTING.md).
 
 ## Documentation
 

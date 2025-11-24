@@ -6,7 +6,7 @@ Thank you for your interest in contributing to Eggroll Trainer!
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/JacobFV/eggroll-trainer.git
 cd eggroll-trainer
 ```
 

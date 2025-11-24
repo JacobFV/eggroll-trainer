@@ -14,9 +14,9 @@ pip install eggroll-trainer
 uv add eggroll-trainer
 ```
 
-## From Source
+## From Source (Development)
 
-Clone the repository and install:
+For development and contributions, clone the repository:
 
 ```bash
 git clone https://github.com/JacobFV/eggroll-trainer.git
@@ -25,6 +25,8 @@ uv sync
 # or
 pip install -e .
 ```
+
+See the [Contributing Guide](../../CONTRIBUTING.md) for more details.
 
 ## Optional Dependencies
 
