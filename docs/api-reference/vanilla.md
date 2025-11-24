@@ -14,6 +14,7 @@ Vanilla Evolution Strategy trainer with full-rank Gaussian perturbations.
 from eggroll_trainer import VanillaESTrainer
 
 trainer = VanillaESTrainer(
+    model.parameters(),
     model=model,
     fitness_fn=fitness_fn,
     population_size=50,

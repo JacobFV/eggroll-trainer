@@ -54,7 +54,7 @@ By default, trainers use the model's device:
 
 ```python
 model = MyModel().to('cuda')
-trainer = EGGROLLTrainer(model=model, ...)
+trainer = EGGROLLTrainer(model.parameters(), model=model, ...)
 # Automatically uses CUDA
 ```
 
@@ -62,6 +62,7 @@ trainer = EGGROLLTrainer(model=model, ...)
 
 ```python
 trainer = EGGROLLTrainer(
+    model.parameters(),
     model=model,
     fitness_fn=fitness_fn,
     device=torch.device('cuda'),
@@ -112,13 +113,13 @@ trainer = EGGROLLTrainer(..., sigma=0.01)
 
 # Adaptive sigma (custom implementation)
 class AdaptiveEGGROLLTrainer(EGGROLLTrainer):
-    def train_step(self):
+    def step(self, closure=None):
         # Adjust sigma based on fitness variance
         if fitness_std < threshold:
             self.sigma *= 1.1  # Increase exploration
         else:
             self.sigma *= 0.9  # Decrease exploration
-        super().train_step()
+        super().step(closure)
 ```
 
 ### Population Size
@@ -151,7 +152,7 @@ class EarlyStoppingTrainer(EGGROLLTrainer):
     
     def train(self, num_generations):
         for gen in range(num_generations):
-            self.train_step()
+            self.step()
             current_fitness = max(self.history['fitness'])
             
             if current_fitness > self.best_fitness + self.min_delta:
@@ -184,7 +185,7 @@ trainer.history = checkpoint['history']
 
 ## Custom Training Loop
 
-For more control, use `train_step()` directly:
+For more control, use `step()` directly:
 
 ```python
 trainer = EGGROLLTrainer(...)
@@ -195,7 +196,7 @@ for generation in range(100):
         evaluate_on_validation_set(trainer.model)
     
     # Training step
-    trainer.train_step()
+    trainer.step()
     
     # Custom logic after step
     if generation % 10 == 0:
@@ -255,12 +256,12 @@ trainer.train(num_generations=10)
 
 ```python
 class DebugTrainer(EGGROLLTrainer):
-    def train_step(self):
+    def step(self, closure=None):
         # Inspect perturbations before update
         perturbations = self._sample_perturbations()
         print(f"Perturbation stats: mean={perturbations.mean()}, "
               f"std={perturbations.std()}")
-        super().train_step()
+        super().step(closure)
 ```
 
 ### Monitor Fitness Distribution

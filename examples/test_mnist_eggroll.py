@@ -67,6 +67,7 @@ def test_mnist_training():
     
     # Create trainer
     trainer = EGGROLLTrainer(
+        model.parameters(),
         model=model,
         fitness_fn=fitness_fn,
         population_size=32,

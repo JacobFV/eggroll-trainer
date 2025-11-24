@@ -27,6 +27,7 @@ Most users should start with `EGGROLLTrainer` for best performance.
 from eggroll_trainer import EGGROLLTrainer
 
 trainer = EGGROLLTrainer(
+    model.parameters(),
     model=model,
     fitness_fn=fitness_fn,
     population_size=256,

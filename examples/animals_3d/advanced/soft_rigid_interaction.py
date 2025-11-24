@@ -307,7 +307,7 @@ def main():
             viewer.render_step(obs, action_np, reward)
             
             if steps % 20 == 0:
-                trainer.train_step()
+                trainer.step()
             
             obs = next_obs
             episode_reward += reward

@@ -182,7 +182,7 @@ class CooperativeSystem:
             # Train periodically
             if steps % 20 == 0:
                 for trainer in self.trainers:
-                    trainer.train_step()
+                    trainer.step()
             
             steps += 1
         

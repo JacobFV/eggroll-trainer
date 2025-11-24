@@ -4,10 +4,11 @@ import abc
 from typing import Callable, Dict, List, Optional, Tuple, Any
 import torch
 import torch.nn as nn
+import torch.optim
 from torch import Tensor
 
 
-class ESTrainer(abc.ABC):
+class ESTrainer(torch.optim.Optimizer, abc.ABC):
     """
     Base class for Evolution Strategy trainers.
     
@@ -28,6 +29,7 @@ class ESTrainer(abc.ABC):
     
     def __init__(
         self,
+        params,
         model: nn.Module,
         fitness_fn: Callable[[nn.Module], float],
         population_size: int = 50,
@@ -40,6 +42,8 @@ class ESTrainer(abc.ABC):
         Initialize the ES trainer.
         
         Args:
+            params: Iterable of parameters to optimize (for optimizer compatibility).
+                   Typically model.parameters().
             model: PyTorch model to train. Parameters will be optimized.
             fitness_fn: Function that takes a model and returns a fitness score
                         (higher is better). Should handle model evaluation.
@@ -49,6 +53,13 @@ class ESTrainer(abc.ABC):
             device: Device to run training on (defaults to model's device)
             seed: Random seed for reproducibility
         """
+        defaults = dict(
+            learning_rate=learning_rate,
+            population_size=population_size,
+            sigma=sigma,
+        )
+        super().__init__(params, defaults)
+        
         self.model = model
         self.fitness_fn = fitness_fn
         self.population_size = population_size
@@ -144,9 +155,16 @@ class ESTrainer(abc.ABC):
         """
         return self.fitness_fn(model)
     
-    def train_step(self) -> Dict[str, Any]:
+    def step(self, closure=None):
         """
-        Perform one training step (generation).
+        Perform one optimization step (generation).
+        
+        This method provides compatibility with PyTorch optimizer interface.
+        For ES algorithms, the fitness function is provided at initialization,
+        not per-step. The closure parameter is ignored for ES.
+        
+        Args:
+            closure: Optional callable (ignored for ES, fitness_fn used instead)
         
         Returns:
             Dictionary containing training metrics
@@ -198,6 +216,18 @@ class ESTrainer(abc.ABC):
             "std_fitness": fitnesses_tensor.std().item(),
         }
     
+    def zero_grad(self, set_to_none: bool = False):
+        """
+        Zero gradients (no-op for ES algorithms).
+        
+        This method exists for optimizer interface compatibility.
+        ES algorithms don't use gradients, so this is a no-op.
+        
+        Args:
+            set_to_none: If True, set gradients to None (ignored for ES)
+        """
+        pass
+    
     def train(self, num_generations: int, verbose: bool = True) -> Dict[str, Any]:
         """
         Train the model for multiple generations.
@@ -210,7 +240,7 @@ class ESTrainer(abc.ABC):
             Dictionary containing final training state
         """
         for gen in range(num_generations):
-            metrics = self.train_step()
+            metrics = self.step()
             
             if verbose:
                 print(

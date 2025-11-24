@@ -64,7 +64,7 @@ def test_basic_training():
         
         # Run a few training steps
         for i in range(3):
-            metrics = trainer.train_step()
+            metrics = trainer.step()
             print(f"    Step {i+1}: loss={metrics.get('loss', 0):.4f}")
         
         # Evaluate

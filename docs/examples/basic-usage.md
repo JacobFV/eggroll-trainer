@@ -44,6 +44,7 @@ def fitness_fn(model):
 print("Training with VanillaESTrainer...")
 simple_model = SimpleModel()
 simple_trainer = VanillaESTrainer(
+    simple_model.parameters(),
     model=simple_model,
     fitness_fn=fitness_fn,
     population_size=50,
@@ -57,6 +58,7 @@ simple_trainer.train(num_generations=50)
 print("\nTraining with EGGROLLTrainer...")
 eggroll_model = SimpleModel()
 eggroll_trainer = EGGROLLTrainer(
+    eggroll_model.parameters(),
     model=eggroll_model,
     fitness_fn=fitness_fn,
     population_size=256,  # Larger population!

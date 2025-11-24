@@ -32,6 +32,7 @@ def test_basic_functionality():
         return -torch.norm(params).item()
     
     trainer = VanillaESTrainer(
+        model.parameters(),
         model=model,
         fitness_fn=fitness_fn,
         population_size=10,
@@ -41,7 +42,7 @@ def test_basic_functionality():
     )
     
     # Test single step
-    metrics = trainer.train_step()
+    metrics = trainer.step()
     print(f"✓ Single step completed: generation={metrics['generation']}")
     print(f"  Mean fitness: {metrics['mean_fitness']:.4f}")
     print(f"  Best fitness: {metrics['best_fitness']:.4f}")
@@ -80,6 +81,7 @@ def test_device_handling():
     
     # Test CPU device
     trainer_cpu = VanillaESTrainer(
+        model.parameters(),
         model=model,
         fitness_fn=fitness_fn,
         population_size=5,
@@ -91,6 +93,7 @@ def test_device_handling():
     # Test default device (should use model's device)
     model_cpu = TinyModel()
     trainer_default = VanillaESTrainer(
+        model_cpu.parameters(),
         model=model_cpu,
         fitness_fn=fitness_fn,
         population_size=5,
@@ -108,6 +111,7 @@ def test_parameter_handling():
     
     model = TinyModel()
     trainer = VanillaESTrainer(
+        model.parameters(),
         model=model,
         fitness_fn=lambda m: 1.0,
         population_size=5,
@@ -150,6 +154,7 @@ def test_fitness_improvement():
         return -torch.norm(params - target).item()
     
     trainer = VanillaESTrainer(
+        model.parameters(),
         model=model,
         fitness_fn=fitness_fn,
         population_size=20,
@@ -201,6 +206,7 @@ def test_custom_trainer():
         return -torch.norm(params).item()
     
     trainer = CustomESTrainer(
+        model.parameters(),
         model=model,
         fitness_fn=fitness_fn,
         population_size=10,
@@ -208,7 +214,7 @@ def test_custom_trainer():
         sigma=0.1,
     )
     
-    metrics = trainer.train_step()
+    metrics = trainer.step()
     print(f"✓ Custom trainer step completed: generation={metrics['generation']}")
     print(f"  Mean fitness: {metrics['mean_fitness']:.4f}")
     

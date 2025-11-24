@@ -179,6 +179,7 @@ class ComparisonFramework:
         fitness_fn = self.create_fitness_fn(batch_limit=50)
         
         trainer = EGGROLLTrainer(
+            model.parameters(),
             model=model,
             fitness_fn=fitness_fn,
             population_size=self.config.population_size,
@@ -201,7 +202,7 @@ class ComparisonFramework:
         start_time = time.time()
         
         for gen in range(num_generations):
-            metrics = trainer.train_step()
+            metrics = trainer.step()
             
             if (gen + 1) % self.config.eval_every == 0 or gen == 0:
                 train_acc, test_acc = self.evaluate_model(trainer.model)

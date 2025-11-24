@@ -198,7 +198,7 @@ def create_fitness_fn(data_loader, device):
 
 # Usage
 fitness_fn = create_fitness_fn(train_loader, device)
-trainer = EGGROLLTrainer(model=model, fitness_fn=fitness_fn, ...)
+trainer = EGGROLLTrainer(model.parameters(), model=model, fitness_fn=fitness_fn, ...)
 ```
 
 ## Common Pitfalls

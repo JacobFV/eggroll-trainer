@@ -133,10 +133,10 @@ class AdaptiveEGGROLLTrainer(EGGROLLTrainer):
         self.sigma_decay = sigma_decay
         self.initial_sigma = self.sigma
     
-    def train_step(self):
+    def step(self, closure=None):
         """Override to adapt sigma."""
         # Standard training step
-        super().train_step()
+        super().step(closure)
         
         # Adapt sigma based on fitness variance
         if len(self.history['fitness']) > 10:

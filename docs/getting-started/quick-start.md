@@ -32,6 +32,7 @@ def fitness_fn(model):
 # 3. Create trainer
 model = SimpleModel()
 trainer = EGGROLLTrainer(
+    model.parameters(),
     model=model,
     fitness_fn=fitness_fn,
     population_size=256,

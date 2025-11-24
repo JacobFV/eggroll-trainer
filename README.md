@@ -66,6 +66,7 @@ def fitness_fn(model):
 # Create EGGROLL trainer
 model = SimpleModel()
 trainer = EGGROLLTrainer(
+    model.parameters(),
     model=model,
     fitness_fn=fitness_fn,
     population_size=256,      # Large populations are efficient!

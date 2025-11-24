@@ -66,6 +66,7 @@ Vanilla ES with full-rank Gaussian perturbations.
 from eggroll_trainer import VanillaESTrainer
 
 trainer = VanillaESTrainer(
+    model.parameters(),
     model=model,
     fitness_fn=fitness_fn,
     population_size=50,      # Smaller populations OK for small models
@@ -101,6 +102,7 @@ Advanced ES with low-rank perturbations.
 from eggroll_trainer import EGGROLLTrainer
 
 trainer = EGGROLLTrainer(
+    model.parameters(),
     model=model,
     fitness_fn=fitness_fn,
     population_size=256,      # Large populations are efficient!

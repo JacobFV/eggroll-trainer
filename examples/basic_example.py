@@ -49,6 +49,7 @@ def main():
     
     simple_model = SimpleModel()
     simple_trainer = VanillaESTrainer(
+        simple_model.parameters(),
         model=simple_model,
         fitness_fn=fitness_fn,
         population_size=20,
@@ -78,6 +79,7 @@ def main():
     print("  - Learning rate: 0.01")
     
     eggroll_trainer = EGGROLLTrainer(
+        eggroll_model.parameters(),
         model=eggroll_model,
         fitness_fn=eggroll_fitness_fn,
         population_size=32,

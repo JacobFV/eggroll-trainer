@@ -88,6 +88,7 @@ class ESOptimizer(OptimizerWrapper):
         super().__init__(model, learning_rate)
         self.fitness_fn = fitness_fn
         self.trainer = VanillaESTrainer(
+            model.parameters(),
             model=model,
             fitness_fn=fitness_fn,
             population_size=population_size,
@@ -97,7 +98,7 @@ class ESOptimizer(OptimizerWrapper):
     
     def step(self, loss: torch.Tensor):
         """Perform ES step (ignores loss, uses fitness function)."""
-        self.trainer.train_step()
+        self.trainer.step()
     
     def zero_grad(self):
         """No-op for ES."""
@@ -120,6 +121,7 @@ class EGGROLLOptimizer(OptimizerWrapper):
         super().__init__(model, learning_rate)
         self.fitness_fn = fitness_fn
         self.trainer = EGGROLLTrainer(
+            model.parameters(),
             model=model,
             fitness_fn=fitness_fn,
             population_size=population_size,
@@ -130,7 +132,7 @@ class EGGROLLOptimizer(OptimizerWrapper):
     
     def step(self, loss: torch.Tensor):
         """Perform EGGROLL step (ignores loss, uses fitness function)."""
-        self.trainer.train_step()
+        self.trainer.step()
     
     def zero_grad(self):
         """No-op for EGGROLL."""

@@ -31,6 +31,7 @@ def test_eggroll_basic():
         return -torch.norm(params).item()
     
     trainer = EGGROLLTrainer(
+        model.parameters(),
         model=model,
         fitness_fn=fitness_fn,
         population_size=16,
@@ -41,7 +42,7 @@ def test_eggroll_basic():
     )
     
     # Test single step
-    metrics = trainer.train_step()
+    metrics = trainer.step()
     print(f"✓ Single step completed: generation={metrics['generation']}")
     print(f"  Mean fitness: {metrics['mean_fitness']:.4f}")
     print(f"  Best fitness: {metrics['best_fitness']:.4f}")
@@ -73,6 +74,7 @@ def test_eggroll_low_rank():
         return torch.randn(1).item()
     
     trainer = EGGROLLTrainer(
+        model.parameters(),
         model=model,
         fitness_fn=fitness_fn,
         population_size=8,
@@ -107,6 +109,7 @@ def test_eggroll_fitness_improvement():
         return -torch.norm(params).item()
     
     trainer = EGGROLLTrainer(
+        model.parameters(),
         model=model,
         fitness_fn=fitness_fn,
         population_size=32,
@@ -147,6 +150,7 @@ def test_eggroll_different_ranks():
     
     for rank in [1, 2, 4]:
         trainer = EGGROLLTrainer(
+            model.parameters(),
             model=model,
             fitness_fn=fitness_fn,
             population_size=16,
@@ -155,7 +159,7 @@ def test_eggroll_different_ranks():
             rank=rank,
             seed=42,
         )
-        metrics = trainer.train_step()
+        metrics = trainer.step()
         print(f"✓ Rank {rank}: Mean fitness = {metrics['mean_fitness']:.4f}")
     
     print("✓ All rank tests passed!\n")

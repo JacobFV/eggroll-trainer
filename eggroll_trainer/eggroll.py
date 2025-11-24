@@ -13,13 +13,14 @@ population averaging.
 
 import torch
 import torch.nn as nn
+import torch.optim
 from typing import Callable, Dict, List, Optional, Tuple, Any
 from torch import Tensor
 from collections import OrderedDict
 import copy
 
 
-class EGGROLLTrainer:
+class EGGROLLTrainer(torch.optim.Optimizer):
     """
     EGGROLL trainer implementing the actual EGGROLL algorithm.
     
@@ -33,22 +34,13 @@ class EGGROLLTrainer:
     - Noise reuse: Can reuse noise across multiple evaluations (antithetic sampling)
     - Group normalization: Supports fitness normalization within groups
     
-    Args:
-        model: PyTorch model to train
-        fitness_fn: Function(model) -> float (higher is better)
-        population_size: Number of population members
-        learning_rate: Learning rate for parameter updates
-        sigma: Standard deviation for perturbations
-        rank: Rank of low-rank perturbations (default: 1)
-        noise_reuse: Number of evaluations to reuse noise (0 = no reuse, 2 = antithetic)
-        group_size: Size of groups for fitness normalization (0 = global normalization)
-        freeze_nonlora: If True, only apply LoRA updates to linear layers
-        device: Device to run on
-        seed: Random seed
+    Subclasses torch.optim.Optimizer for compatibility with PyTorch optimizer interface.
+    Use model.parameters() as the first argument, similar to standard optimizers.
     """
     
     def __init__(
         self,
+        params,
         model: nn.Module,
         fitness_fn: Callable[[nn.Module], float],
         population_size: int = 256,
@@ -61,6 +53,36 @@ class EGGROLLTrainer:
         device: Optional[torch.device] = None,
         seed: Optional[int] = None,
     ):
+        """
+        Initialize the EGGROLL trainer.
+        
+        Args:
+            params: Iterable of parameters to optimize (for optimizer compatibility).
+                   Typically model.parameters().
+            model: PyTorch model to train. Parameters will be optimized.
+            fitness_fn: Function that takes a model and returns a fitness score
+                        (higher is better). Should handle model evaluation.
+            population_size: Number of population members
+            learning_rate: Learning rate for parameter updates
+            sigma: Standard deviation for perturbations
+            rank: Rank of low-rank perturbations (default: 1)
+            noise_reuse: Number of evaluations to reuse noise (0 = no reuse, 2 = antithetic)
+            group_size: Size of groups for fitness normalization (0 = global normalization)
+            freeze_nonlora: If True, only apply LoRA updates to linear layers
+            device: Device to run on
+            seed: Random seed
+        """
+        defaults = dict(
+            learning_rate=learning_rate,
+            population_size=population_size,
+            sigma=sigma,
+            rank=rank,
+            noise_reuse=noise_reuse,
+            group_size=group_size,
+            freeze_nonlora=freeze_nonlora,
+        )
+        super().__init__(params, defaults)
+        
         self.model = model
         self.fitness_fn = fitness_fn
         self.population_size = population_size
@@ -343,9 +365,16 @@ class EGGROLLTrainer:
         
         return update
     
-    def train_step(self) -> Dict[str, Any]:
+    def step(self, closure=None):
         """
-        Perform one EGGROLL training step.
+        Perform one optimization step.
+        
+        This method provides compatibility with PyTorch optimizer interface.
+        For ES algorithms, the fitness function is provided at initialization,
+        not per-step. The closure parameter is ignored for ES.
+        
+        Args:
+            closure: Optional callable (ignored for ES, fitness_fn used instead)
         
         Returns:
             Dictionary with training metrics
@@ -424,6 +453,18 @@ class EGGROLLTrainer:
             "std_fitness": raw_scores_tensor.std().item(),
         }
     
+    def zero_grad(self, set_to_none: bool = False):
+        """
+        Zero gradients (no-op for ES algorithms).
+        
+        This method exists for optimizer interface compatibility.
+        ES algorithms don't use gradients, so this is a no-op.
+        
+        Args:
+            set_to_none: If True, set gradients to None (ignored for ES)
+        """
+        pass
+    
     def train(self, num_generations: int, verbose: bool = True) -> Dict[str, Any]:
         """
         Train for multiple generations.
@@ -436,7 +477,7 @@ class EGGROLLTrainer:
             Dictionary with final training state
         """
         for gen in range(num_generations):
-            metrics = self.train_step()
+            metrics = self.step()
             
             if verbose:
                 print(
