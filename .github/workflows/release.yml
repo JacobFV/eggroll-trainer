@@ -73,16 +73,6 @@ jobs:
         echo "Package contents:"
         python -m zipfile -l dist/*.whl | head -20
     
-    - name: Publish to TestPyPI
-      if: github.event_name == 'workflow_dispatch'
-      env:
-        TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
-        TWINE_REPOSITORY_URL: https://test.pypi.org/legacy/
-      run: |
-        echo "Publishing to TestPyPI..."
-        python -m twine upload --verbose dist/*
-    
     - name: Publish to PyPI
       if: github.event_name == 'release'
       env:
