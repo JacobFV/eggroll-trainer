@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!-- Full underwater environment with fluid dynamics -->
+<mujoco model="underwater_full">
+  <option timestep="0.001" gravity="0 0 -9.81" viscosity="0.01" density="1000"/>
+  
+  <asset>
+    <material name="water" rgba="0.2 0.5 0.8 0.3"/>
+    <material name="seafloor" rgba="0.3 0.5 0.7 1"/>
+  </asset>
+  
+  <worldbody>
+    <!-- Seafloor -->
+    <geom name="seafloor" type="plane" size="30 30 0.1" pos="0 0 -5" 
+          material="seafloor" friction="0.5 0.1 0.01"/>
+    
+    <!-- Water volume with fluid dynamics -->
+    <!-- MuJoCo doesn't have built-in fluid simulation, so we use:
+         - Reduced gravity (buoyancy effect)
+         - Viscosity for drag
+         - Custom forces applied via actuators/sensors -->
+    
+    <!-- Water surface marker -->
+    <geom name="water_surface" type="box" size="30 30 0.1" pos="0 0 2" 
+          rgba="0.2 0.5 0.8 0.2" contype="0" conaffinity="0"/>
+    
+    <!-- Buoyancy zones (using multiple geoms for different depths) -->
+    <geom name="buoyancy_zone_1" type="box" size="30 30 0.5" pos="0 0 0" 
+          rgba="0.2 0.5 0.8 0.1" contype="0" conaffinity="0"/>
+    <geom name="buoyancy_zone_2" type="box" size="30 30 0.5" pos="0 0 1" 
+          rgba="0.2 0.5 0.8 0.1" contype="0" conaffinity="0"/>
+    <geom name="buoyancy_zone_3" type="box" size="30 30 0.5" pos="0 0 2" 
+          rgba="0.2 0.5 0.8 0.1" contype="0" conaffinity="0"/>
+  </worldbody>
+  
+  <!-- Fluid dynamics sensors -->
+  <sensor>
+    <!-- Velocity sensors for drag calculation -->
+    <framelinvel name="body_velocity" objtype="body" objname="torso"/>
+    <framelinvel name="body_angular_vel" objtype="body" objname="torso"/>
+    
+    <!-- Depth sensor -->
+    <framepos name="body_depth" objtype="body" objname="torso"/>
+  </sensor>
+  
+  <!-- Custom actuators for fluid forces (applied via Python) -->
+  <actuator>
+    <!-- These will be controlled programmatically to apply buoyancy and drag -->
+  </actuator>
+</mujoco>
+

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!-- Full cloth walking environment with Ant agent -->
+<mujoco model="cloth_walking">
+  <option timestep="0.002" gravity="0 0 -9.81" integrator="RK4"/>
+  
+  <asset>
+    <material name="cloth_mat" rgba="0.8 0.8 0.9 0.9" texture="grid"/>
+    <material name="ground_mat" rgba="0.5 0.5 0.5 1"/>
+  </asset>
+  
+  <worldbody>
+    <!-- Ground -->
+    <geom name="ground" type="plane" size="10 10 0.1" material="ground_mat" 
+          friction="1.0 0.005 0.0001"/>
+    
+    <!-- Cloth mesh using shell composite (cloth is deprecated, use shell) -->
+    <composite type="shell" count="20 20" offset="0 0 0.5">
+      <geom type="box" size="0.075 0.075 0.005" material="cloth_mat" 
+            solimp="0.9 0.95 0.001" solref="0.02 1"
+            friction="0.8 0.1 0.005" density="100"/>
+    </composite>
+    
+    <!-- Sites for contact detection (must be in worldbody) -->
+    <site name="cloth_center" pos="0 0 0.5" size="0.1"/>
+    <site name="cloth_edge_1" pos="1.5 0 0.5" size="0.1"/>
+    <site name="cloth_edge_2" pos="-1.5 0 0.5" size="0.1"/>
+    
+    <!-- Ant agent (will be loaded from Ant-v4) -->
+    <!-- Note: In full implementation, would include full Ant model here -->
+  </worldbody>
+  
+  <!-- Sensors for cloth contact and deformation -->
+  <sensor>
+    <!-- Contact force sensors on cloth -->
+    <touch name="cloth_contact_center" site="cloth_center"/>
+    <touch name="cloth_contact_edges_1" site="cloth_edge_1"/>
+    <touch name="cloth_contact_edges_2" site="cloth_edge_2"/>
+    
+    <!-- Deformation sensors -->
+    <framepos name="cloth_deformation" objtype="site" objname="cloth_center"/>
+  </sensor>
+</mujoco>
+

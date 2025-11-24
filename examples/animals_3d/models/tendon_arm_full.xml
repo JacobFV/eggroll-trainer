@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<!-- Full tendon-driven arm with proper tendon routing and mechanics -->
+<mujoco model="tendon_arm_full">
+  <option timestep="0.002" gravity="0 0 -9.81"/>
+  
+  <worldbody>
+    <!-- Base -->
+    <body name="base" pos="0 0 1">
+      <geom type="box" size="0.1 0.1 0.1" rgba="0.5 0.5 0.5 1"/>
+      
+      <!-- Upper arm -->
+      <body name="upper_arm" pos="0 0 0.15">
+        <joint name="shoulder_pitch" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.1"/>
+        <joint name="shoulder_roll" type="hinge" axis="1 0 0" range="-1.57 1.57" damping="0.1"/>
+        <geom type="cylinder" size="0.05 0.15" rgba="0.8 0.2 0.2 1"/>
+        
+        <!-- Tendon attachment sites -->
+        <site name="flexor_origin_1" pos="0.05 0 0" size="0.02"/>
+        <site name="extensor_origin_1" pos="-0.05 0 0" size="0.02"/>
+        <site name="flexor_routing_1" pos="0.03 0.1 0" size="0.01"/>
+        <site name="extensor_routing_1" pos="-0.03 0.1 0" size="0.01"/>
+        
+        <!-- Forearm -->
+        <body name="forearm" pos="0 0 0.2">
+          <joint name="elbow" type="hinge" axis="0 1 0" range="-3.14 0" damping="0.1"/>
+          <geom type="cylinder" size="0.04 0.12" rgba="0.2 0.8 0.2 1"/>
+          
+          <!-- Tendon attachment sites -->
+          <site name="flexor_insertion_1" pos="0.04 0 0" size="0.02"/>
+          <site name="extensor_insertion_1" pos="-0.04 0 0" size="0.02"/>
+          <site name="flexor_routing_2" pos="0.02 0.08 0" size="0.01"/>
+          <site name="extensor_routing_2" pos="-0.02 0.08 0" size="0.01"/>
+          
+          <!-- Hand -->
+          <body name="hand" pos="0 0 0.12">
+            <joint name="wrist" type="hinge" axis="0 1 0" range="-1.57 1.57" damping="0.1"/>
+            <geom type="box" size="0.05 0.03 0.02" rgba="0.2 0.2 0.8 1"/>
+            
+            <!-- Tendon attachment sites -->
+            <site name="flexor_insertion_2" pos="0.03 0 0" size="0.02"/>
+            <site name="extensor_insertion_2" pos="-0.03 0 0" size="0.02"/>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  
+  <!-- Tendon system with proper routing -->
+  <tendon>
+    <!-- Shoulder flexor tendon (routed through pulley) -->
+    <spatial name="shoulder_flexor" width="0.008">
+      <site site="flexor_origin_1"/>
+      <site site="flexor_routing_1"/>
+      <site site="flexor_insertion_1"/>
+    </spatial>
+    
+    <!-- Shoulder extensor tendon -->
+    <spatial name="shoulder_extensor" width="0.008">
+      <site site="extensor_origin_1"/>
+      <site site="extensor_routing_1"/>
+      <site site="extensor_insertion_1"/>
+    </spatial>
+    
+    <!-- Elbow flexor tendon -->
+    <spatial name="elbow_flexor" width="0.008">
+      <site site="flexor_insertion_1"/>
+      <site site="flexor_routing_2"/>
+      <site site="flexor_insertion_2"/>
+    </spatial>
+    
+    <!-- Elbow extensor tendon -->
+    <spatial name="elbow_extensor" width="0.008">
+      <site site="extensor_insertion_1"/>
+      <site site="extensor_routing_2"/>
+      <site site="extensor_insertion_2"/>
+    </spatial>
+    
+    <!-- Wrist flexor tendon -->
+    <spatial name="wrist_flexor" width="0.006">
+      <site site="flexor_insertion_2"/>
+      <site site="hand" pos="0.02 0 0"/>
+    </spatial>
+    
+    <!-- Wrist extensor tendon -->
+    <spatial name="wrist_extensor" width="0.006">
+      <site site="extensor_insertion_2"/>
+      <site site="hand" pos="-0.02 0 0"/>
+    </spatial>
+  </tendon>
+  
+  <!-- Tendon actuators -->
+  <actuator>
+    <!-- Tendon actuators with proper mechanics -->
+    <general name="shoulder_flexor_act" tendon="shoulder_flexor" 
+             gear="1.0" ctrllimited="true" ctrlrange="0 1"
+             gaintype="muscle" biastype="muscle"/>
+    <general name="shoulder_extensor_act" tendon="shoulder_extensor" 
+             gear="1.0" ctrllimited="true" ctrlrange="0 1"
+             gaintype="muscle" biastype="muscle"/>
+    <general name="elbow_flexor_act" tendon="elbow_flexor" 
+             gear="1.0" ctrllimited="true" ctrlrange="0 1"
+             gaintype="muscle" biastype="muscle"/>
+    <general name="elbow_extensor_act" tendon="elbow_extensor" 
+             gear="1.0" ctrllimited="true" ctrlrange="0 1"
+             gaintype="muscle" biastype="muscle"/>
+    <general name="wrist_flexor_act" tendon="wrist_flexor" 
+             gear="1.0" ctrllimited="true" ctrlrange="0 1"
+             gaintype="muscle" biastype="muscle"/>
+    <general name="wrist_extensor_act" tendon="wrist_extensor" 
+             gear="1.0" ctrllimited="true" ctrlrange="0 1"
+             gaintype="muscle" biastype="muscle"/>
+  </actuator>
+  
+  <!-- Sensors for tendon state -->
+  <sensor>
+    <!-- Tendon length sensors -->
+    <tendonlength name="shoulder_flexor_length" tendon="shoulder_flexor"/>
+    <tendonlength name="shoulder_extensor_length" tendon="shoulder_extensor"/>
+    <tendonlength name="elbow_flexor_length" tendon="elbow_flexor"/>
+    <tendonlength name="elbow_extensor_length" tendon="elbow_extensor"/>
+    <tendonlength name="wrist_flexor_length" tendon="wrist_flexor"/>
+    <tendonlength name="wrist_extensor_length" tendon="wrist_extensor"/>
+    
+    <!-- Tendon velocity sensors -->
+    <tendonvel name="shoulder_flexor_velocity" tendon="shoulder_flexor"/>
+    <tendonvel name="shoulder_extensor_velocity" tendon="shoulder_extensor"/>
+    <tendonvel name="elbow_flexor_velocity" tendon="elbow_flexor"/>
+    <tendonvel name="elbow_extensor_velocity" tendon="elbow_extensor"/>
+    <tendonvel name="wrist_flexor_velocity" tendon="wrist_flexor"/>
+    <tendonvel name="wrist_extensor_velocity" tendon="wrist_extensor"/>
+    
+    <!-- Tendon tension sensors -->
+    <tendonfrc name="shoulder_flexor_tension" tendon="shoulder_flexor"/>
+    <tendonfrc name="shoulder_extensor_tension" tendon="shoulder_extensor"/>
+    <tendonfrc name="elbow_flexor_tension" tendon="elbow_flexor"/>
+    <tendonfrc name="elbow_extensor_tension" tendon="elbow_extensor"/>
+    <tendonfrc name="wrist_flexor_tension" tendon="wrist_flexor"/>
+    <tendonfrc name="wrist_extensor_tension" tendon="wrist_extensor"/>
+  </sensor>
+</mujoco>
+

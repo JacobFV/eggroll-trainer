@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!-- Underwater environment example -->
+<mujoco model="underwater">
+  <option timestep="0.002" gravity="0 0 -9.81"/>
+  
+  <asset>
+    <material name="water" rgba="0.2 0.5 0.8 0.3"/>
+  </asset>
+  
+  <worldbody>
+    <!-- Ground -->
+    <geom name="ground" type="plane" size="20 20 0.1" rgba="0.3 0.5 0.7 1"/>
+    
+    <!-- Water volume (visual) -->
+    <geom name="water_surface" type="box" size="20 20 1" pos="0 0 2" 
+          rgba="0.2 0.5 0.8 0.2" contype="0" conaffinity="0"/>
+  </worldbody>
+</mujoco>
+

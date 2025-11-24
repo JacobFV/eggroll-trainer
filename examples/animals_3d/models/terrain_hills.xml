@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!-- Procedural terrain example with hills -->
+<mujoco model="terrain_hills">
+  <option timestep="0.002" gravity="0 0 -9.81"/>
+  
+  <asset>
+    <!-- Heightfield for terrain -->
+    <hfield name="terrain_hfield" size="50 50 2.0 0.1" nrow="50" ncol="50"/>
+  </asset>
+  
+  <worldbody>
+    <!-- Terrain -->
+    <geom name="terrain" type="hfield" hfield="terrain_hfield" 
+          rgba="0.6 0.6 0.4 1" friction="1.0 0.5 0.0001"/>
+  </worldbody>
+</mujoco>
+

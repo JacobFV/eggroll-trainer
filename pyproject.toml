@@ -48,6 +48,8 @@ dev = [
 ]
 examples = [
     "matplotlib>=3.7.0",
+    "gymnasium>=0.29.0",
+    "mujoco>=2.3.0",
 ]
 docs = [
     "mkdocs>=1.5.0",

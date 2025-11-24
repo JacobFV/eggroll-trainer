@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!-- Simple tendon-driven arm example -->
+<mujoco model="tendon_arm">
+  <option timestep="0.002" gravity="0 0 -9.81"/>
+  
+  <worldbody>
+    <!-- Base -->
+    <body name="base" pos="0 0 0.5">
+      <geom type="cylinder" size="0.1 0.2" rgba="0.5 0.5 0.5 1"/>
+      
+      <!-- Upper arm -->
+      <body name="upper_arm" pos="0 0 0.3">
+        <joint name="shoulder" type="hinge" axis="0 1 0" range="-3.14 3.14"/>
+        <geom type="cylinder" size="0.05 0.3" rgba="0.8 0.2 0.2 1"/>
+        
+        <!-- Lower arm -->
+        <body name="lower_arm" pos="0 0 0.3">
+          <joint name="elbow" type="hinge" axis="0 1 0" range="-3.14 3.14"/>
+          <geom type="cylinder" size="0.04 0.25" rgba="0.2 0.8 0.2 1"/>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  
+  <!-- Tendon system -->
+  <tendon>
+    <spatial name="tendon_1">
+      <site name="attachment_1" body="base" pos="0 0 0.2"/>
+      <site name="attachment_2" body="lower_arm" pos="0 0 0.2"/>
+    </spatial>
+  </tendon>
+  
+  <actuator>
+    <motor name="shoulder_motor" joint="shoulder" gear="1.0"/>
+    <motor name="elbow_motor" joint="elbow" gear="1.0"/>
+  </actuator>
+</mujoco>
+

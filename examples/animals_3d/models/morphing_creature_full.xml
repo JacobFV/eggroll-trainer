@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!-- Full morphing creature with soft body segments and tendon control -->
+<mujoco model="morphing_creature">
+  <option timestep="0.002" gravity="0 0 -9.81"/>
+  
+  <worldbody>
+    <!-- Core body (rigid) -->
+    <body name="core" pos="0 0 1">
+      <geom type="box" size="0.1 0.1 0.1" rgba="0.5 0.5 0.5 1"/>
+      
+      <!-- Soft body segments for morphing -->
+      <composite type="ellipsoid" count="3 3 3" spacing="0.15 0.15 0.15" offset="0 0 0.2">
+        <geom type="ellipsoid" size="0.08 0.08 0.08" rgba="0.8 0.3 0.3 0.8" 
+              solimp="0.9 0.95 0.001" solref="0.02 1" density="500"/>
+      </composite>
+      
+      <!-- Tendon attachment sites for shape control -->
+      <site name="tendon_origin_1" pos="0.1 0 0" size="0.02"/>
+      <site name="tendon_origin_2" pos="-0.1 0 0" size="0.02"/>
+      <site name="tendon_origin_3" pos="0 0.1 0" size="0.02"/>
+      <site name="tendon_origin_4" pos="0 -0.1 0" size="0.02"/>
+      
+      <!-- Soft body control sites -->
+      <site name="soft_control_1" pos="0.2 0 0.2" size="0.03"/>
+      <site name="soft_control_2" pos="-0.2 0 0.2" size="0.03"/>
+      <site name="soft_control_3" pos="0 0.2 0.2" size="0.03"/>
+      <site name="soft_control_4" pos="0 -0.2 0.2" size="0.03"/>
+    </body>
+  </worldbody>
+  
+  <!-- Tendon system for shape morphing -->
+  <tendon>
+    <!-- Shape control tendons -->
+    <spatial name="shape_tendon_1" width="0.006">
+      <site site="tendon_origin_1"/>
+      <site site="soft_control_1"/>
+    </spatial>
+    
+    <spatial name="shape_tendon_2" width="0.006">
+      <site site="tendon_origin_2"/>
+      <site site="soft_control_2"/>
+    </spatial>
+    
+    <spatial name="shape_tendon_3" width="0.006">
+      <site site="tendon_origin_3"/>
+      <site site="soft_control_3"/>
+    </spatial>
+    
+    <spatial name="shape_tendon_4" width="0.006">
+      <site site="tendon_origin_4"/>
+      <site site="soft_control_4"/>
+    </spatial>
+  </tendon>
+  
+  <!-- Actuators for shape control -->
+  <actuator>
+    <general name="shape_actuator_1" tendon="shape_tendon_1" 
+             gear="1.0" ctrllimited="true" ctrlrange="-1 1"/>
+    <general name="shape_actuator_2" tendon="shape_tendon_2" 
+             gear="1.0" ctrllimited="true" ctrlrange="-1 1"/>
+    <general name="shape_actuator_3" tendon="shape_tendon_3" 
+             gear="1.0" ctrllimited="true" ctrlrange="-1 1"/>
+    <general name="shape_actuator_4" tendon="shape_tendon_4" 
+             gear="1.0" ctrllimited="true" ctrlrange="-1 1"/>
+  </actuator>
+  
+  <!-- Sensors for shape state -->
+  <sensor>
+    <!-- Soft body deformation sensors -->
+    <framepos name="soft_body_center" objtype="body" objname="core"/>
+    <framequat name="soft_body_orientation" objtype="body" objname="core"/>
+    
+    <!-- Tendon length sensors for shape control -->
+    <tendonlength name="shape_tendon_1_length" tendon="shape_tendon_1"/>
+    <tendonlength name="shape_tendon_2_length" tendon="shape_tendon_2"/>
+    <tendonlength name="shape_tendon_3_length" tendon="shape_tendon_3"/>
+    <tendonlength name="shape_tendon_4_length" tendon="shape_tendon_4"/>
+    
+    <!-- Contact sensors for soft body interaction -->
+    <touch name="soft_body_contact" site="soft_control_1"/>
+  </sensor>
+</mujoco>
+

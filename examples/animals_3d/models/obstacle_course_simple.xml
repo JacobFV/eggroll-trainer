@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!-- Simple obstacle course example -->
+<mujoco model="obstacle_course">
+  <option timestep="0.002" gravity="0 0 -9.81"/>
+  
+  <asset>
+    <material name="obstacle" rgba="0.7 0.3 0.3 1"/>
+    <material name="platform" rgba="0.3 0.7 0.3 1"/>
+  </asset>
+  
+  <worldbody>
+    <!-- Ground -->
+    <geom name="ground" type="plane" size="20 20 0.1" rgba="0.5 0.5 0.5 1"/>
+    
+    <!-- Obstacle 1 -->
+    <body name="obstacle_1" pos="5 0 0.5">
+      <geom type="box" size="0.5 2 1" material="obstacle"/>
+    </body>
+    
+    <!-- Obstacle 2 -->
+    <body name="obstacle_2" pos="10 2 0.5">
+      <geom type="box" size="0.5 2 1" material="obstacle"/>
+    </body>
+    
+    <!-- Moving platform -->
+    <body name="platform_1" pos="7 0 0.5">
+      <joint name="platform_joint" type="slide" axis="0 1 0"/>
+      <geom type="box" size="1 0.5 0.1" material="platform"/>
+    </body>
+  </worldbody>
+  
+  <actuator>
+    <motor name="platform_motor" joint="platform_joint" gear="1.0"/>
+  </actuator>
+</mujoco>
+

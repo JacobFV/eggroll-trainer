@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!-- Muscle-actuated leg example -->
+<mujoco model="muscle_leg">
+  <option timestep="0.002" gravity="0 0 -9.81"/>
+  
+  <worldbody>
+    <!-- Pelvis -->
+    <body name="pelvis" pos="0 0 1">
+      <geom type="box" size="0.1 0.1 0.05" rgba="0.5 0.5 0.5 1"/>
+      
+      <!-- Thigh -->
+      <body name="thigh" pos="0 0 -0.2">
+        <joint name="hip" type="hinge" axis="0 1 0" range="-3.14 3.14"/>
+        <geom type="cylinder" size="0.06 0.2" rgba="0.8 0.2 0.2 1"/>
+        
+        <!-- Shank -->
+        <body name="shank" pos="0 0 -0.3">
+          <joint name="knee" type="hinge" axis="0 1 0" range="-3.14 0"/>
+          <geom type="cylinder" size="0.05 0.2" rgba="0.2 0.8 0.2 1"/>
+          
+          <!-- Foot -->
+          <body name="foot" pos="0 0 -0.2">
+            <geom type="box" size="0.08 0.05 0.02" rgba="0.2 0.2 0.8 1"/>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  
+  <!-- Muscle actuators (simplified - would use custom muscle dynamics) -->
+  <actuator>
+    <motor name="hip_flexor" joint="hip" gear="1.0"/>
+    <motor name="knee_flexor" joint="knee" gear="1.0"/>
+  </actuator>
+</mujoco>
+

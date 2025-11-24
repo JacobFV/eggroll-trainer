@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!-- Aerial environment example with reduced gravity -->
+<mujoco model="aerial">
+  <option timestep="0.002" gravity="0 0 -2.0"/>
+  
+  <worldbody>
+    <!-- Ground (far below) -->
+    <geom name="ground" type="plane" size="50 50 0.1" pos="0 0 -5" rgba="0.5 0.5 0.5 1"/>
+    
+    <!-- Wind zones (visual markers) -->
+    <geom name="wind_zone_1" type="box" size="5 5 2" pos="10 0 3" 
+          rgba="0.8 0.8 0.2 0.1" contype="0" conaffinity="0"/>
+  </worldbody>
+</mujoco>
+

@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<!-- Full muscle-actuated system with proper muscle mechanics -->
+<mujoco model="muscle_full">
+  <option timestep="0.002" gravity="0 0 -9.81"/>
+  
+  <worldbody>
+    <!-- Pelvis -->
+    <body name="pelvis" pos="0 0 1">
+      <geom type="box" size="0.1 0.1 0.05" rgba="0.5 0.5 0.5 1"/>
+      
+      <!-- Thigh -->
+      <body name="thigh" pos="0 0 -0.2">
+        <joint name="hip" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.1"/>
+        <geom type="cylinder" size="0.06 0.2" rgba="0.8 0.2 0.2 1"/>
+        
+        <!-- Muscle attachment points -->
+        <site name="hip_flexor_origin" pos="0.05 0 0" size="0.02"/>
+        <site name="hip_extensor_origin" pos="-0.05 0 0" size="0.02"/>
+        
+        <!-- Shank -->
+        <body name="shank" pos="0 0 -0.3">
+          <joint name="knee" type="hinge" axis="0 1 0" range="-3.14 0" damping="0.1"/>
+          <geom type="cylinder" size="0.05 0.2" rgba="0.2 0.8 0.2 1"/>
+          
+          <!-- Muscle attachment points -->
+          <site name="knee_flexor_insertion" pos="0.04 0 0" size="0.02"/>
+          <site name="knee_extensor_insertion" pos="-0.04 0 0" size="0.02"/>
+          
+          <!-- Foot -->
+          <body name="foot" pos="0 0 -0.2">
+            <geom type="box" size="0.08 0.05 0.02" rgba="0.2 0.2 0.8 1"/>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  
+  <!-- Tendons for muscle routing -->
+  <tendon>
+    <!-- Hip flexor muscle -->
+    <spatial name="hip_flexor" width="0.01">
+      <site site="hip_flexor_origin"/>
+      <site site="knee_flexor_insertion"/>
+    </spatial>
+    
+    <!-- Hip extensor muscle -->
+    <spatial name="hip_extensor" width="0.01">
+      <site site="hip_extensor_origin"/>
+      <site site="knee_extensor_insertion"/>
+    </spatial>
+    
+    <!-- Knee flexor muscle -->
+    <spatial name="knee_flexor" width="0.01">
+      <site site="knee_flexor_insertion"/>
+      <site site="foot" pos="0 0 0"/>
+    </spatial>
+    
+    <!-- Knee extensor muscle -->
+    <spatial name="knee_extensor" width="0.01">
+      <site site="knee_extensor_insertion"/>
+      <site site="foot" pos="0 0 0"/>
+    </spatial>
+  </tendon>
+  
+  <!-- Muscle actuators with force-length-velocity relationships -->
+  <actuator>
+    <!-- Muscle actuators - these will be controlled with proper muscle dynamics -->
+    <general name="hip_flexor_muscle" tendon="hip_flexor" 
+             gear="1.0" ctrllimited="true" ctrlrange="0 1"
+             gaintype="muscle" biastype="muscle"/>
+    <general name="hip_extensor_muscle" tendon="hip_extensor" 
+             gear="1.0" ctrllimited="true" ctrlrange="0 1"
+             gaintype="muscle" biastype="muscle"/>
+    <general name="knee_flexor_muscle" tendon="knee_flexor" 
+             gear="1.0" ctrllimited="true" ctrlrange="0 1"
+             gaintype="muscle" biastype="muscle"/>
+    <general name="knee_extensor_muscle" tendon="knee_extensor" 
+             gear="1.0" ctrllimited="true" ctrlrange="0 1"
+             gaintype="muscle" biastype="muscle"/>
+  </actuator>
+  
+  <!-- Sensors for muscle state -->
+  <sensor>
+    <!-- Tendon length sensors -->
+    <tendonlength name="hip_flexor_length" tendon="hip_flexor"/>
+    <tendonlength name="hip_extensor_length" tendon="hip_extensor"/>
+    <tendonlength name="knee_flexor_length" tendon="knee_flexor"/>
+    <tendonlength name="knee_extensor_length" tendon="knee_extensor"/>
+    
+    <!-- Tendon velocity sensors -->
+    <tendonvel name="hip_flexor_velocity" tendon="hip_flexor"/>
+    <tendonvel name="hip_extensor_velocity" tendon="hip_extensor"/>
+    <tendonvel name="knee_flexor_velocity" tendon="knee_flexor"/>
+    <tendonvel name="knee_extensor_velocity" tendon="knee_extensor"/>
+    
+    <!-- Muscle force sensors -->
+    <actuatorfrc name="hip_flexor_force" actuator="hip_flexor_muscle"/>
+    <actuatorfrc name="hip_extensor_force" actuator="hip_extensor_muscle"/>
+    <actuatorfrc name="knee_flexor_force" actuator="knee_flexor_muscle"/>
+    <actuatorfrc name="knee_extensor_force" actuator="knee_extensor_muscle"/>
+  </sensor>
+</mujoco>
+
