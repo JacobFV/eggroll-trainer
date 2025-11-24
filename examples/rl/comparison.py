@@ -160,7 +160,7 @@ def run_trial(
     start_time = time.time()
     
     for step in range(num_steps):
-        metrics = trainer.step()
+        metrics = trainer.train_step()
         
         # Evaluate periodically
         if step % max(1, num_steps // 20) == 0 or step == num_steps - 1:
