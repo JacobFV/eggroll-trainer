@@ -42,12 +42,12 @@ For a model with matrix parameters:
 | Method | Accuracy | Time per Generation | Total Time |
 |--------|----------|---------------------|------------|
 | **EGGROLL** | 85-90% | 0.5s | 50s |
-| **SimpleESTrainer** | 80-85% | 50s | 5000s |
+| **VanillaESTrainer** | 80-85% | 50s | 5000s |
 | **SGD** | 95%+ | 0.1s | 10s |
 
 ### Notes
 
-- EGGROLL is **100x faster** than SimpleESTrainer
+- EGGROLL is **100x faster** than VanillaESTrainer
 - EGGROLL achieves competitive accuracy
 - SGD is faster but requires gradients
 - EGGROLL is gradient-free (useful for non-differentiable objectives)
@@ -99,10 +99,10 @@ Training a model to match target parameters:
 |--------|------------------------|---------------|
 | **EGGROLL** (r=1) | 50 | -0.05 |
 | **EGGROLL** (r=2) | 45 | -0.04 |
-| **SimpleESTrainer** | 50 | -0.05 |
+| **VanillaESTrainer** | 50 | -0.05 |
 | **SGD** | 20 | -0.01 |
 
-*EGGROLL matches SimpleESTrainer performance with 100x speedup*
+*EGGROLL matches VanillaESTrainer performance with 100x speedup*
 
 ## Real-World Applications
 

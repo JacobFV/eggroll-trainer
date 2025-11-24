@@ -88,7 +88,7 @@ nav:
   - API Reference:
     - api-reference/index.md
     - api-reference/base.md
-    - api-reference/simple.md
+    - api-reference/vanilla.md
     - api-reference/eggroll.md
   - Examples:
     - examples/index.md

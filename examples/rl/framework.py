@@ -8,7 +8,7 @@ from typing import Dict, List, Tuple, Optional, Callable, Any
 from collections import deque
 import gymnasium as gym
 
-from eggroll_trainer import SimpleESTrainer, EGGROLLTrainer
+from eggroll_trainer import VanillaESTrainer, EGGROLLTrainer
 from .models import PolicyNetwork, ValueNetwork, QNetwork
 
 
@@ -74,7 +74,7 @@ class SGDOptimizer(OptimizerWrapper):
 
 
 class ESOptimizer(OptimizerWrapper):
-    """ES optimizer wrapper using SimpleESTrainer."""
+    """ES optimizer wrapper using VanillaESTrainer."""
     
     def __init__(
         self,
@@ -87,7 +87,7 @@ class ESOptimizer(OptimizerWrapper):
     ):
         super().__init__(model, learning_rate)
         self.fitness_fn = fitness_fn
-        self.trainer = SimpleESTrainer(
+        self.trainer = VanillaESTrainer(
             model=model,
             fitness_fn=fitness_fn,
             population_size=population_size,

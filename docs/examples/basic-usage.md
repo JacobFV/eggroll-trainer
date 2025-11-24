@@ -1,11 +1,11 @@
 # Basic Usage Example
 
-A simple example comparing `SimpleESTrainer` and `EGGROLLTrainer`.
+A simple example comparing `VanillaESTrainer` and `EGGROLLTrainer`.
 
 ## Overview
 
 This example demonstrates:
-- Using both SimpleESTrainer and EGGROLLTrainer
+- Using both VanillaESTrainer and EGGROLLTrainer
 - Parameter matching task
 - Comparing performance
 
@@ -14,7 +14,7 @@ This example demonstrates:
 ```python
 import torch
 import torch.nn as nn
-from eggroll_trainer import SimpleESTrainer, EGGROLLTrainer
+from eggroll_trainer import VanillaESTrainer, EGGROLLTrainer
 
 # Define a simple model
 class SimpleModel(nn.Module):
@@ -40,10 +40,10 @@ def fitness_fn(model):
     distance = (current_params - target_params).norm()
     return -distance.item()  # Higher is better (negate distance)
 
-# Test SimpleESTrainer
-print("Training with SimpleESTrainer...")
+# Test VanillaESTrainer
+print("Training with VanillaESTrainer...")
 simple_model = SimpleModel()
-simple_trainer = SimpleESTrainer(
+simple_trainer = VanillaESTrainer(
     model=simple_model,
     fitness_fn=fitness_fn,
     population_size=50,
@@ -71,7 +71,7 @@ eggroll_trainer.train(num_generations=50)
 simple_best = max(simple_trainer.history['fitness'])
 eggroll_best = max(eggroll_trainer.history['fitness'])
 
-print(f"\nSimpleESTrainer best fitness: {simple_best:.4f}")
+print(f"\nVanillaESTrainer best fitness: {simple_best:.4f}")
 print(f"EGGROLLTrainer best fitness: {eggroll_best:.4f}")
 ```
 
@@ -84,7 +84,7 @@ python examples/basic_example.py
 ## Expected Output
 
 ```
-Training with SimpleESTrainer...
+Training with VanillaESTrainer...
 Generation 0: Mean fitness = -1.2345
 ...
 Generation 50: Mean fitness = -0.1234
@@ -94,7 +94,7 @@ Generation 0: Mean fitness = -1.2345
 ...
 Generation 50: Mean fitness = -0.0567
 
-SimpleESTrainer best fitness: -0.1234
+VanillaESTrainer best fitness: -0.1234
 EGGROLLTrainer best fitness: -0.0567
 ```
 

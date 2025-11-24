@@ -15,7 +15,7 @@ uv run python examples/mnist_comparison.py
 
 ### Basic Examples
 
-- **`basic_example.py`** ⭐ **START HERE** - Side-by-side comparison of SimpleESTrainer and EGGROLLTrainer
+- **`basic_example.py`** ⭐ **START HERE** - Side-by-side comparison of VanillaESTrainer and EGGROLLTrainer
   - Shows both trainers on the same simple task
   - Demonstrates the difference between full-rank and low-rank perturbations
   - Quick to run (~30 seconds)

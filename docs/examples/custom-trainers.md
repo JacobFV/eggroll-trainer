@@ -188,7 +188,7 @@ def test_custom_trainer():
 
 1. **Start simple** - Begin with basic Gaussian perturbations
 2. **Test thoroughly** - Verify your algorithm works on simple tasks
-3. **Compare baselines** - Compare against SimpleESTrainer or EGGROLLTrainer
+3. **Compare baselines** - Compare against VanillaESTrainer or EGGROLLTrainer
 4. **Document** - Add docstrings explaining your algorithm
 5. **Profile** - Check performance bottlenecks
 

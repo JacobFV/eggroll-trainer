@@ -126,7 +126,7 @@ Subclasses implement:
 ## Examples
 
 See the `examples/` directory:
-- `basic_example.py` ⭐ **START HERE** - Side-by-side comparison of SimpleESTrainer and EGGROLLTrainer
+- `basic_example.py` ⭐ **START HERE** - Side-by-side comparison of VanillaESTrainer and EGGROLLTrainer
 - `mnist_comparison.py` - Full EGGROLL vs SGD comparison on MNIST with plots
 - `run_all_comparisons.py` - Multi-architecture comparison (CNN, Transformer, MLP)
 - `comparison_framework.py` - Reusable framework for comparing optimizers

@@ -124,7 +124,7 @@ def fitness_fn(model):
 
 ## Comparison: Full-Rank vs Low-Rank
 
-### Full-Rank ES (SimpleESTrainer)
+### Full-Rank ES (VanillaESTrainer)
 
 ```python
 # For W ∈ R^(m×n), sample N ∈ R^(m×n)

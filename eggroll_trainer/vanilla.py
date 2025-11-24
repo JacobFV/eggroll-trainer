@@ -1,13 +1,13 @@
-"""Simple ES trainer implementation as an example."""
+"""Vanilla ES trainer implementation as an example."""
 
 import torch
 from torch import Tensor
 from eggroll_trainer.base import ESTrainer
 
 
-class SimpleESTrainer(ESTrainer):
+class VanillaESTrainer(ESTrainer):
     """
-    Simple Evolution Strategy trainer using Gaussian perturbations
+    Vanilla Evolution Strategy trainer using Gaussian perturbations
     and fitness-weighted updates.
     
     This is a basic implementation that can be used as a reference

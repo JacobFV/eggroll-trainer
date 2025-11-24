@@ -1,8 +1,8 @@
-# SimpleESTrainer
+# VanillaESTrainer
 
-Simple Evolution Strategy trainer with full-rank Gaussian perturbations.
+Vanilla Evolution Strategy trainer with full-rank Gaussian perturbations.
 
-::: eggroll_trainer.simple.SimpleESTrainer
+::: eggroll_trainer.vanilla.VanillaESTrainer
     options:
       show_root_heading: true
       show_source: true
@@ -11,9 +11,9 @@ Simple Evolution Strategy trainer with full-rank Gaussian perturbations.
 ## Usage
 
 ```python
-from eggroll_trainer import SimpleESTrainer
+from eggroll_trainer import VanillaESTrainer
 
-trainer = SimpleESTrainer(
+trainer = VanillaESTrainer(
     model=model,
     fitness_fn=fitness_fn,
     population_size=50,

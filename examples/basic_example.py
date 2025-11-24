@@ -1,6 +1,6 @@
-"""Basic example demonstrating both SimpleESTrainer and EGGROLLTrainer.
+"""Basic example demonstrating both VanillaESTrainer and EGGROLLTrainer.
 
-This example shows how to use both the base ES trainer and the EGGROLL trainer
+This example shows how to use both the vanilla ES trainer and the EGGROLL trainer
 on the same simple task, allowing for easy comparison.
 """
 
@@ -16,7 +16,7 @@ _parent_dir = os.path.dirname(_script_dir)
 if _parent_dir not in sys.path:
     sys.path.insert(0, _parent_dir)
 
-from eggroll_trainer import ESTrainer, SimpleESTrainer, EGGROLLTrainer
+from eggroll_trainer import ESTrainer, VanillaESTrainer, EGGROLLTrainer
 
 # Import from local examples directory
 # When running as script: examples/models.py
@@ -42,13 +42,13 @@ def main():
     print("Creating fitness function...")
     fitness_fn = create_parameter_distance_fitness_fn(noise_std=0.1, use_dict=False)
     
-    # ========== SimpleESTrainer Example ==========
+    # ========== VanillaESTrainer Example ==========
     print("\n" + "=" * 70)
-    print("1. SimpleESTrainer (Base ES with full-rank perturbations)")
+    print("1. VanillaESTrainer (Vanilla ES with full-rank perturbations)")
     print("=" * 70)
     
     simple_model = SimpleModel()
-    simple_trainer = SimpleESTrainer(
+    simple_trainer = VanillaESTrainer(
         model=simple_model,
         fitness_fn=fitness_fn,
         population_size=20,
@@ -60,7 +60,7 @@ def main():
     print("\nTraining for 10 generations...")
     simple_results = simple_trainer.train(num_generations=10, verbose=True)
     
-    print(f"\n✓ SimpleESTrainer complete!")
+    print(f"\n✓ VanillaESTrainer complete!")
     print(f"  Best fitness: {simple_results['best_fitness']:.4f}")
     
     # ========== EGGROLLTrainer Example ==========
@@ -103,7 +103,7 @@ def main():
     print("\n" + "=" * 70)
     print("Comparison")
     print("=" * 70)
-    print(f"SimpleESTrainer best fitness: {simple_results['best_fitness']:.4f}")
+    print(f"VanillaESTrainer best fitness: {simple_results['best_fitness']:.4f}")
     print(f"EGGROLLTrainer best fitness:  {eggroll_results['best_fitness']:.4f}")
     print(f"\nDifference: {eggroll_results['best_fitness'] - simple_results['best_fitness']:+.4f}")
     

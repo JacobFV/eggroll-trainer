@@ -56,7 +56,7 @@ Test that everything works:
 
 ```python
 import torch
-from eggroll_trainer import EGGROLLTrainer, ESTrainer, SimpleESTrainer
+from eggroll_trainer import EGGROLLTrainer, ESTrainer, VanillaESTrainer
 
 print("Eggroll Trainer installed successfully!")
 ```

@@ -5,20 +5,20 @@ Complete API documentation for Eggroll Trainer.
 ## Modules
 
 - **[ESTrainer](base.md)** - Base class for Evolution Strategy trainers
-- **[SimpleESTrainer](simple.md)** - Simple ES with full-rank perturbations
+- **[VanillaESTrainer](vanilla.md)** - Vanilla ES with full-rank perturbations
 - **[EGGROLLTrainer](eggroll.md)** - EGGROLL algorithm with low-rank perturbations
 
 ## Quick Import
 
 ```python
-from eggroll_trainer import ESTrainer, SimpleESTrainer, EGGROLLTrainer
+from eggroll_trainer import ESTrainer, VanillaESTrainer, EGGROLLTrainer
 ```
 
 ## Class Hierarchy
 
 ```
 ESTrainer (abstract)
-├── SimpleESTrainer
+├── VanillaESTrainer
 └── EGGROLLTrainer
 ```
 

@@ -24,7 +24,7 @@ Welcome to Eggroll Trainer! This guide will help you get up and running quickly.
 Eggroll Trainer provides:
 
 - **ESTrainer**: Base class for implementing custom ES algorithms
-- **SimpleESTrainer**: Basic ES with full-rank perturbations
+- **VanillaESTrainer**: Vanilla ES with full-rank perturbations
 - **EGGROLLTrainer**: Advanced ES with low-rank perturbations (recommended)
 
 Most users will want to start with `EGGROLLTrainer` for best performance.

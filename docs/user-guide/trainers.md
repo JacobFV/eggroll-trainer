@@ -1,6 +1,6 @@
 # Trainers
 
-Guide to using ESTrainer, SimpleESTrainer, and EGGROLLTrainer.
+Guide to using ESTrainer, VanillaESTrainer, and EGGROLLTrainer.
 
 ## ESTrainer (Base Class)
 
@@ -50,9 +50,9 @@ class CustomESTrainer(ESTrainer):
         return (weights[:, None] * perturbations).mean(dim=0)
 ```
 
-## SimpleESTrainer
+## VanillaESTrainer
 
-Basic ES with full-rank Gaussian perturbations.
+Vanilla ES with full-rank Gaussian perturbations.
 
 ### When to Use
 
@@ -63,9 +63,9 @@ Basic ES with full-rank Gaussian perturbations.
 ### Usage
 
 ```python
-from eggroll_trainer import SimpleESTrainer
+from eggroll_trainer import VanillaESTrainer
 
-trainer = SimpleESTrainer(
+trainer = VanillaESTrainer(
     model=model,
     fitness_fn=fitness_fn,
     population_size=50,      # Smaller populations OK for small models
@@ -200,8 +200,8 @@ best_model = trainer.get_best_model()
 
 ## Comparison Table
 
-| Feature | ESTrainer | SimpleESTrainer | EGGROLLTrainer |
-|---------|-----------|-----------------|----------------|
+| Feature | ESTrainer | VanillaESTrainer | EGGROLLTrainer |
+|---------|-----------|------------------|----------------|
 | **Type** | Abstract base | Full-rank ES | Low-rank ES |
 | **Memory** | Depends on impl | O(mn) | O(r(m+n)) |
 | **Speed** | Depends on impl | Baseline | ~100x faster |

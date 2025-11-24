@@ -162,7 +162,7 @@ All examples use reward shaping to guide learning:
 
 Examples support multiple optimizers:
 - **SGD** - Standard gradient descent
-- **ES** - Evolution Strategies (SimpleESTrainer)
+- **ES** - Evolution Strategies (VanillaESTrainer)
 - **EGGROLL** - Low-rank ES (EGGROLLTrainer)
 
 Specify optimizer type when creating trainers:

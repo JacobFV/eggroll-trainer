@@ -14,7 +14,7 @@ if _parent_dir not in sys.path:
 if _script_dir not in sys.path:
     sys.path.insert(0, _script_dir)
 
-from eggroll_trainer import ESTrainer, SimpleESTrainer
+from eggroll_trainer import ESTrainer, VanillaESTrainer
 from models import TinyModel
 
 
@@ -31,7 +31,7 @@ def test_basic_functionality():
         params = torch.cat([p.flatten() for p in model.parameters()])
         return -torch.norm(params).item()
     
-    trainer = SimpleESTrainer(
+    trainer = VanillaESTrainer(
         model=model,
         fitness_fn=fitness_fn,
         population_size=10,
@@ -79,7 +79,7 @@ def test_device_handling():
         return torch.randn(1).item()
     
     # Test CPU device
-    trainer_cpu = SimpleESTrainer(
+    trainer_cpu = VanillaESTrainer(
         model=model,
         fitness_fn=fitness_fn,
         population_size=5,
@@ -90,7 +90,7 @@ def test_device_handling():
     
     # Test default device (should use model's device)
     model_cpu = TinyModel()
-    trainer_default = SimpleESTrainer(
+    trainer_default = VanillaESTrainer(
         model=model_cpu,
         fitness_fn=fitness_fn,
         population_size=5,
@@ -107,7 +107,7 @@ def test_parameter_handling():
     print("=" * 60)
     
     model = TinyModel()
-    trainer = SimpleESTrainer(
+    trainer = VanillaESTrainer(
         model=model,
         fitness_fn=lambda m: 1.0,
         population_size=5,
@@ -149,7 +149,7 @@ def test_fitness_improvement():
         # Reward closeness to target
         return -torch.norm(params - target).item()
     
-    trainer = SimpleESTrainer(
+    trainer = VanillaESTrainer(
         model=model,
         fitness_fn=fitness_fn,
         population_size=20,

@@ -16,7 +16,7 @@ class ESTrainer(abc.ABC):
     ES variants (e.g., CMA-ES, OpenAI ES, Natural ES, etc.).
     
     Example:
-        class SimpleESTrainer(ESTrainer):
+        class VanillaESTrainer(ESTrainer):
             def sample_perturbations(self, population_size):
                 # Return perturbations for each member of the population
                 pass
