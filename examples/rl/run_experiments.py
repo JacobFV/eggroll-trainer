@@ -35,6 +35,24 @@ from examples.rl.results import (
 )
 
 
+def convert_to_json_serializable(obj):
+    """Convert numpy types to native Python types for JSON serialization."""
+    if isinstance(obj, (np.integer, np.int_)):
+        return int(obj)
+    elif isinstance(obj, (np.floating, np.float_)):
+        return float(obj)
+    elif isinstance(obj, np.ndarray):
+        return obj.tolist()
+    elif isinstance(obj, (np.bool_, bool)):
+        return bool(obj)
+    elif isinstance(obj, dict):
+        return {key: convert_to_json_serializable(value) for key, value in obj.items()}
+    elif isinstance(obj, (list, tuple)):
+        return [convert_to_json_serializable(item) for item in obj]
+    else:
+        return obj
+
+
 def statistical_significance_test(
     results_a: List[float],
     results_b: List[float],
@@ -63,17 +81,26 @@ def statistical_significance_test(
             "std_b": float(np.std(results_b)) if len(results_b) > 0 else 0.0,
         }
     
-    # Perform Shapiro-Wilk test for normality
-    _, p_norm_a = stats.shapiro(results_a)
-    _, p_norm_b = stats.shapiro(results_b)
-    
-    # Use appropriate test based on normality
-    if p_norm_a > 0.05 and p_norm_b > 0.05:
-        # Both normal: use t-test
-        t_stat, p_value = stats.ttest_ind(results_a, results_b)
-        test_name = "t-test"
+    # Perform Shapiro-Wilk test for normality (requires at least 3 samples)
+    if len(results_a) >= 3 and len(results_b) >= 3:
+        try:
+            _, p_norm_a = stats.shapiro(results_a)
+            _, p_norm_b = stats.shapiro(results_b)
+            # Use appropriate test based on normality
+            if not np.isnan(p_norm_a) and not np.isnan(p_norm_b) and p_norm_a > 0.05 and p_norm_b > 0.05:
+                # Both normal: use t-test
+                t_stat, p_value = stats.ttest_ind(results_a, results_b)
+                test_name = "t-test"
+            else:
+                # Non-normal: use Mann-Whitney U test
+                u_stat, p_value = stats.mannwhitneyu(results_a, results_b, alternative='two-sided')
+                test_name = "mannwhitneyu"
+        except Exception:
+            # Fallback to Mann-Whitney U if Shapiro-Wilk fails
+            u_stat, p_value = stats.mannwhitneyu(results_a, results_b, alternative='two-sided')
+            test_name = "mannwhitneyu"
     else:
-        # Non-normal: use Mann-Whitney U test
+        # Too few samples for normality test, use Mann-Whitney U
         u_stat, p_value = stats.mannwhitneyu(results_a, results_b, alternative='two-sided')
         test_name = "mannwhitneyu"
     
@@ -89,7 +116,7 @@ def statistical_significance_test(
         cohens_d = 0.0
     
     return {
-        "significant": p_value < alpha,
+        "significant": bool(p_value < alpha),
         "p_value": float(p_value),
         "test": test_name,
         "effect_size": float(cohens_d),
@@ -226,7 +253,7 @@ def analyze_results(
     # Save analysis
     analysis_file = os.path.join(output_dir, "statistical_analysis.json")
     with open(analysis_file, "w") as f:
-        json.dump(analysis, f, indent=2)
+        json.dump(convert_to_json_serializable(analysis), f, indent=2)
     
     print(f"\nAnalysis saved to {analysis_file}")
     
